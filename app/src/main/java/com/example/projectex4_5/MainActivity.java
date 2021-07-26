@@ -1,7 +1,9 @@
 package com.example.projectex4_5;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -36,8 +38,18 @@ public class MainActivity extends AppCompatActivity {
         list1.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
-                arrList.remove(position);
-                adapter.notifyDataSetChanged();
+                AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+                dialog.setTitle("삭제여부 확인");
+                dialog.setMessage("정말로 삭제하겠습니까?");
+                dialog.setPositiveButton("삭제", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        arrList.remove(i);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+                dialog.setNegativeButton("취소",null);
+                dialog.show();
                 return false;
             }
         });
